@@ -29,15 +29,10 @@ void decode_string(std::ostringstream& output, char key)
 
 int score_string(const std::string& plaintext)
 {
-    // Non-printable is -255
     int score = 0;
-    std::string::size_type idx;
 
-    for (auto c : plaintext) {
-        idx = COMMON.find_first_of(c);
-        if (idx != std::string::npos) {
-            score += 50;
-        }
+    for (auto c : COMMON) {
+        score += std::count(plaintext.cbegin(), plaintext.cend(), c) * 50;
     }
 
     return score;
