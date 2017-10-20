@@ -2,29 +2,29 @@
 CXXFLAGS += -I../
 
 
-targets := 	set11 \
-			set12 \
-			set13 \
-			set14
+targets := 	sol11 \
+			sol12 \
+			sol13 \
+			sol14
 			
 all: $(targets)
 
 %.o: %.cpp
 	$(COMPILE.cc) $< -o $@
 
-../lib.o:
+../lib.o: ../lib.cpp
 	$(COMPILE.cc) ../lib.cpp -o $@
 
-set11: ../lib.o c1.o
+sol11: ../lib.o c1.o
 	$(LINK.cc) -o $@ $^ $(LDLIBS)
 
-set12: ../lib.o c2.o
+sol12: ../lib.o c2.o
 	$(LINK.cc) -o $@ $^ $(LDLIBS)
 
-set13: ../lib.o c3.o
+sol13: ../lib.o c3.o
 	$(LINK.cc) -o $@ $^ $(LDLIBS)
 
-set14: ../lib.o c4.o
+sol14: ../lib.o c4.o
 	$(LINK.cc) -o $@ $^ $(LDLIBS)
 
 
