@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <lib.hpp>
 
 std::vector<unsigned char> input{0x49, 0x27, 0x6d, 0x20, 0x6b, 0x69, 0x6c,
     0x6c, 0x69, 0x6e, 0x67, 0x20, 0x79, 0x6f,
@@ -13,53 +14,7 @@ std::vector<unsigned char> input{0x49, 0x27, 0x6d, 0x20, 0x6b, 0x69, 0x6c,
 
 const std::string SOLUTION{"SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t"};
 
-const std::string ALPHABET{"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="};
-
 // 1111 1122 2222 3333 3344 4444
-
-std::string encode_base64(const std::vector<unsigned char>& input)
-{
-    unsigned char i{};
-    unsigned char rem{};
-    auto p = 0;
-    std::ostringstream out{};
-
-    for (auto v : input) {
-        switch (p) {
-            case 0:
-                i = (v >> 2) & 0x3F;
-                rem = (v & 0x3) << 4;
-                out << ALPHABET.at(i);
-                ++p;
-                break;
-            case 1:
-                i = rem | ((v >> 4) & 0xF);
-                rem = (v & 0xF) << 2;
-                out << ALPHABET.at(i);
-                ++p;
-                break;
-            case 2:
-                i = rem | ((v >> 6) & 0x3);
-                out << ALPHABET.at(i);
-                out << ALPHABET.at(v & 0x3F);
-                rem = 0;
-                p = 0;
-                break;
-            default:
-                break;
-        }
-    }
-
-    if (p == 1) {
-        out << ALPHABET.at(rem);
-    }
-
-    while (p > 0) {
-        out << ALPHABET.at(ALPHABET.size() - 1);
-        --p;
-    }
-    return out.str();
-}
 
 int main(int argc, char *argv[])
 {
