@@ -8,3 +8,5 @@ void decode_string(
         std::ostringstream& output,
         const std::vector<char> &ciphertext,
         char key);
+
+void hex_to_binary(const std::string &input, std::vector<char> &output);

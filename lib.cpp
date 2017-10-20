@@ -2,6 +2,8 @@
 #include <algorithm>
 #include <vector>
 #include <string>
+#include <iterator>
+#include <iostream>
 #include <lib.hpp>
 
 const std::string COMMON{"etaoin shrdlu"};
@@ -75,5 +77,40 @@ void decode_string(
 
     for (auto c : ciphertext) {
         output.put(std::tolower(c ^ key));
+    }
+}
+
+void decode_string(
+        std::ostringstream& output,
+        const std::string &ciphertext,
+        char key)
+{
+    output.clear();
+    output.str("");
+    char tmp = 0;
+
+    for (auto c : ciphertext) {
+        output.put(std::tolower(c ^ key));
+    }
+}
+
+/**
+ * Decode hex encoded strings into a vector of chars. Assumes two byte
+ * values.
+ */
+void hex_to_binary(const std::string &input, std::vector<char> &output)
+{
+    const auto &it = std::begin(input);
+    std::string tmp;
+    char v = 0;
+    unsigned long tmpv = 0;
+
+    for (auto c : input) {
+        tmp += c;
+        if (tmp.size() == 2) {
+            tmpv = std::stoul(tmp, 0, 16);
+            output.push_back(static_cast<char>(tmpv & 0xFF));
+            tmp.clear();
+        }
     }
 }
